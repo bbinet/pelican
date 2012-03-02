@@ -24,12 +24,7 @@ Basic settings
 ================================================    =====================================================
 Setting name (default value)                        what does it do?
 ================================================    =====================================================
-`ARTICLE_PERMALINK_STRUCTURE` (``''``)              Empty by default. Allows to render URLs in a
-                                                    particular way, see below.
 `AUTHOR`                                            Default author (put your name)
-`CLEAN_URLS` (``False``)                             If set to `True`, the URLs will not be suffixed by
-                                                    `.html`, so you will have to setup URL rewriting on 
-                                                    your web server.
 `DATE_FORMATS` (``{}``)                             If you do manage multiple languages, you can
                                                     set the date formatting here. See "Date format and locales"
                                                     section below for details.
@@ -78,33 +73,53 @@ Setting name (default value)                        what does it do?
 
 .. [#] Default is the system locale. Default is to delete the output directory.
 
-Article permalink structure
----------------------------
-Allow to render articles sorted by date, in case you specify a format as
-specified in the example.  It follows the python datetime directives: 
+URL Settings
+------------
 
-* %Y: Year with century as a decimal number.  
-* %m: Month as a decimal number [01,12].  
-* %d: Day of the month as a decimal number [01,31].
+You can customize the URL's and locations where files will be saved. The URL's and
+SAVE_AS variables use python's format strings. These variables allow you to place
+your articles in a location such as '{slug}/index.html' and link to then as
+'{slug}' for clean urls. These settings give you the flexibility to place your
+articles and pages anywhere you want.
 
-Note: if you specify a datetime directive, it will be substituted using the
-date metadata field into the rest file. if the date is not specified, pelican
-will rely on the mtime of your file.
+Here is a list of all the variables which you can use in the format string: 
 
-Check the python datetime documentation at http://bit.ly/cNcJUC for more
-information.
-
-Also, you can use any metadata in the restructured text files: 
-
-* category: '%(category)s' 
-* author: '%(author)s' 
-* tags: '%(tags)s' 
-* date: '%(date)s'
+* slug
+* date
+* lang
+* author
+* category
 
 Example usage: 
 
-* '/%Y/%m/' it will be something like '/2011/07/sample-post.html'.  
-* '/%Y/%(category)s/' it will be something like '/2011/life/sample-post.html'.
+* ARTICLE_URL = 'posts/{date:%Y}/{date:%b}/{date:%d}/{slug}/'
+* ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/{date:%d}/{slug}/index.html'
+
+This would save your articles in something like '/posts/2011/Aug/07/sample-post/index.html',
+and the URL to this would be '/posts/2011/Aug/07/sample-post/'.
+
+================================================    =====================================================
+Setting name (default value)                        what does it do?
+================================================    =====================================================
+`ARTICLE_URL` ('{slug}.html')                       The URL to refer to an ARTICLE.
+`ARTICLE_SAVE_AS` ('{slug}.html')                   The place where we will save an article.
+`ARTICLE_LANG_URL` ('{slug}-{lang}.html')           The URL to refer to an ARTICLE which doesn't use the
+                                                    default language.
+`ARTICLE_LANG_SAVE_AS` ('{slug}-{lang}.html'        The place where we will save an article which
+                                                    doesn't use the default language.
+`PAGE_URL` ('pages/{slug}.html')                    The URL we will use to link to a page.
+`PAGE_SAVE_AS` ('pages/{slug}.html')                The location we will save the page.
+`PAGE_LANG_URL` ('pages/{slug}-{lang}.html')        The URL we will use to link to a page which doesn't
+                                                    use the default language.
+`PAGE_LANG_SAVE_AS` ('pages/{slug}-{lang}.html')    The location we will save the page which doesn't
+                                                    use the default language.
+`AUTHOR_URL` ('author/{name}.html')                 The URL to use for an author.
+`AUTHOR_SAVE_AS` ('author/{name}.html')             The location to save an author.
+`CATEGORY_URL` ('category/{name}.html')             The URL to use for a category.
+`CATEGORY_SAVE_AS` ('category/{name}.html')         The location to save a category.
+`TAG_URL` ('tag/{name}.html')                       The URL to use for a tag.
+`TAG_SAVE_AS` ('tag/{name}.html')                   The location to save the tag page.
+================================================    =====================================================
 
 Timezone
 --------
