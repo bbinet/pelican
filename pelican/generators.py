@@ -72,18 +72,20 @@ class Generator(object):
             extensions = self.markup
 
         files = []
+        paths = path if isinstance(path, list) else [path]
 
-        try:
-            iter = os.walk(path, followlinks=True)
-        except TypeError: # python 2.5 does not support followlinks
-            iter = os.walk(path)
+        for p in paths:
+            try:
+                iter = os.walk(p, followlinks=True)
+            except TypeError: # python 2.5 does not support followlinks
+                iter = os.walk(p)
 
-        for root, dirs, temp_files in iter:
-            for e in exclude:
-                if e in dirs:
-                    dirs.remove(e)
-            files.extend([os.sep.join((root, f)) for f in temp_files
-                if True in [f.endswith(ext) for ext in extensions]])
+            for root, dirs, temp_files in iter:
+                for e in exclude:
+                    if e in dirs:
+                        dirs.remove(e)
+                files.extend([os.sep.join((root, f)) for f in temp_files
+                    if True in [f.endswith(ext) for ext in extensions]])
         return files
 
     def _update_context(self, items):
@@ -208,9 +210,12 @@ class ArticlesGenerator(Generator):
     def generate_context(self):
         """change the context"""
 
-        # return the list of files to use
-        files = self.get_files(self.path, exclude=['pages',])
         all_articles = []
+        paths = self.settings['ARTICLE_PATHS'] or self.path
+        if isinstance(paths, list):
+            paths = [os.sep.join((self.path, p,)) for p in paths]
+        # return the list of files to use
+        files = self.get_files(paths, exclude=self.settings['ARTICLE_EXCLUDES'])
         for f in files:
             try:
                 content, metadata = read_file(f, settings=self.settings)
@@ -313,7 +318,12 @@ class PagesGenerator(Generator):
 
     def generate_context(self):
         all_pages = []
-        for f in self.get_files(os.sep.join((self.path, 'pages'))):
+        paths = self.settings['PAGE_PATHS'] or self.path
+        if isinstance(paths, list):
+            paths = [os.sep.join((self.path, p,)) for p in paths]
+        # return the list of files to use
+        files = self.get_files(paths, exclude=self.settings['PAGE_EXCLUDES'])
+        for f in files:
             try:
                 content, metadata = read_file(f)
             except Exception, e:
