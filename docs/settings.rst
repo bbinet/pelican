@@ -51,7 +51,11 @@ Setting name (default value)                        what does it do?
                                                     Python-Markdown documentation for a complete list of
                                                     supported extensions.
 `OUTPUT_PATH` (``'output/'``)                       Where to output the generated files.
-`PATH` (``None``)                                   path to look at for input files.
+`PATH` (``None``)                                   Path to look at for input files.
+`PAGE_PATHS' (``['pages',]``)                       Relative path to look at for pages.
+`PAGE_EXCLUDES' (``[]``)                            Excluded directories from which pages can be found.
+`ARTICLE_PATHS' (``False``)                         Relative path to look at for articles.
+`ARTICLE_EXCLUDES': (``['pages',]``)                Excluded directories from which articles can be found.
 `PDF_GENERATOR` (``False``)                         Set to True if you want to have PDF versions
                                                     of your documents. You will need to install
                                                     `rst2pdf`.
