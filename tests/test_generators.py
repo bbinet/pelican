@@ -61,11 +61,10 @@ class TestArticlesGenerator(unittest.TestCase):
         generator = ArticlesGenerator(settings.copy(), settings, None,
                                       _DEFAULT_CONFIG['THEME'], None,
                                       _DEFAULT_CONFIG['MARKUP'])
-
-        writer = MagicMock()
-        generator.generate_direct_templates(writer)
-        writer.write_file.assert_called_with("archives.html",
-            generator.get_template("archives"), settings, relative_urls=True,
+        write = MagicMock()
+        generator.generate_direct_templates(write)
+        write.assert_called_with("archives.html",
+            generator.get_template("archives"), settings,
             blog=True, paginated={}, page_name='archives')
 
     def test_direct_templates_save_as_modified(self):
@@ -76,10 +75,10 @@ class TestArticlesGenerator(unittest.TestCase):
         generator = ArticlesGenerator(settings, settings, None,
                                       _DEFAULT_CONFIG['THEME'], None,
                                       _DEFAULT_CONFIG['MARKUP'])
-        writer = MagicMock()
-        generator.generate_direct_templates(writer)
-        writer.write_file.assert_called_with("archives/index.html",
-            generator.get_template("archives"), settings, relative_urls=True,
+        write = MagicMock()
+        generator.generate_direct_templates(write)
+        write.assert_called_with("archives/index.html",
+            generator.get_template("archives"), settings,
             blog=True, paginated={}, page_name='archives')
 
     def test_direct_templates_save_as_false(self):
@@ -90,9 +89,9 @@ class TestArticlesGenerator(unittest.TestCase):
         generator = ArticlesGenerator(settings, settings, None,
                                       _DEFAULT_CONFIG['THEME'], None,
                                       _DEFAULT_CONFIG['MARKUP'])
-        writer = MagicMock()
-        generator.generate_direct_templates(writer)
-        writer.write_file.assert_called_count == 0
+        write = MagicMock()
+        generator.generate_direct_templates(write)
+        write.assert_called_count == 0
 
 
 class TestLessCSSGenerator(unittest.TestCase):
