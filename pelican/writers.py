@@ -127,6 +127,7 @@ class Writer(object):
             localcontext['SITEURL'] = get_relative_path(name)
 
         localcontext.update(kwargs)
+        localcontext.update(page_name=name[:-5] if name[-5:]==".html" else name)
         if relative_urls:
             self.update_context_contents(name, localcontext)
 
