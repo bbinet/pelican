@@ -118,7 +118,7 @@ class TestLessCSSGenerator(unittest.TestCase):
         with temporary_folder() as temp_content:
             with temporary_folder() as temp_output:
                 generator = LessCSSGenerator(None, settings, temp_content,
-                                    _DEFAULT_CONFIG['THEME'], temp_output, None)
+                                _DEFAULT_CONFIG['THEME'], temp_output, None)
 
                 # create a dummy less file
                 less_dir = os.path.join(temp_content, 'static', 'css')
